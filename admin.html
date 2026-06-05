@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+body { font-family:Arial; background:#000; color:white; padding:20px; }
+
+input {
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+}
+
+button {
+  width:100%;
+  padding:10px;
+  background:red;
+  color:white;
+  border:none;
+  margin-top:5px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Admin Login</h2>
+
+<input id="password" placeholder="Enter password">
+<button onclick="login()">Login</button>
+
+<div id="panel" style="display:none;">
+
+<h2>Add Item</h2>
+
+<input id="name" placeholder="Name">
+<input id="price" placeholder="Price">
+<input id="discount" placeholder="Discount %">
+<input id="image" placeholder="Image URL">
+
+<button onclick="addItem()">Add</button>
+
+</div>
+
+<script>
+const supabaseUrl = "YOUR_URL";
+const supabaseKey = "YOUR_KEY";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+function login(){
+  if(document.getElementById("password").value === "1234"){
+    document.getElementById("panel").style.display = "block";
+  } else {
+    alert("Wrong password");
+  }
+}
+
+async function addItem(){
+  await supabase.from("menu").insert([{
+    name: document.getElementById("name").value,
+    price: parseInt(document.getElementById("price").value),
+    discount: parseInt(document.getElementById("discount").value),
+    image: document.getElementById("image").value
+  }]);
+
+  alert("Item added");
+}
+</script>
+
+</body>
+  </html>
